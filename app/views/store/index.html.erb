@@ -6,6 +6,12 @@
 
 <h1>Your pragmatic catalog</h1>
 
+<% if session[:index_access_counter] > 5 %>
+  <p>
+    You accessed this catalog <%= pluralize(session[:index_access_counter], "time") %> during this session.
+  </p>
+<% end %>
+
 <ul class="catalog">
   <% cache @products do %>
     <% @products.each do |p| %>
@@ -22,6 +28,7 @@
 
           <div class="price">
             <%= number_to_currency p.price %>
+            <%= button_to 'Add to cart', line_items_path(product_id: p) %>
           </div>
         </li>
       <% end %>
