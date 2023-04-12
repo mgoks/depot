@@ -8,7 +8,8 @@
 
 <% if session[:index_access_counter] > 5 %>
   <p>
-    You accessed this catalog <%= pluralize(session[:index_access_counter], "time") %> during this session.
+    You accessed this catalog <%= pluralize(session[:index_access_counter],
+    "time") %> during this session.
   </p>
 <% end %>
 

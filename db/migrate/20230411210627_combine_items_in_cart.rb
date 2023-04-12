@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CombineItemsInCart < ActiveRecord::Migration[7.0]
   def up
     # Replace multiple items for a single product in a cart with a single item.
@@ -6,15 +8,15 @@ class CombineItemsInCart < ActiveRecord::Migration[7.0]
       sums = cart.line_items.group(:product_id).sum(:quantity)
 
       sums.each do |id, quantity|
-        if quantity > 1
-          # Remove individual items
-          cart.line_items.where(product_id: id).delete_all
+        next unless quantity > 1
 
-          # Replace with a single line item
-          item = cart.line_items.build(product_id: id)
-          item.quantity = quantity
-          item.save!
-        end
+        # Remove individual items
+        cart.line_items.where(product_id: id).delete_all
+
+        # Replace with a single line item
+        item = cart.line_items.build(product_id: id)
+        item.quantity = quantity
+        item.save!
       end
     end
   end
@@ -34,5 +36,4 @@ class CombineItemsInCart < ActiveRecord::Migration[7.0]
       line_item.destroy
     end
   end
-
 end

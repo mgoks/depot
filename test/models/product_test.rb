@@ -1,4 +1,6 @@
-require "test_helper"
+# frozen_string_literal: true
+
+require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
   fixtures :products
@@ -13,7 +15,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test 'product price must be positive' do
-    p = Product.new(title: 'My Book Title', description: 'yyy', 
+    p = Product.new(title: 'My Book Title', description: 'yyy',
                     image_url: 'zzz.jpg')
     p.price = -1
     assert p.invalid?
@@ -28,9 +30,9 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test 'image url' do
-    ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg
-      http://a.b.c/x/y/z/fred.gif }
-    bad = %w{ fred.doc fred.gif/more fred.gif.more }
+    ok = %w[ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg
+             http://a.b.c/x/y/z/fred.gif ]
+    bad = %w[fred.doc fred.gif/more fred.gif.more]
     ok.each do |image_url|
       assert new_product(image_url).valid?, "#{image_url} should be valid"
     end
@@ -55,7 +57,6 @@ class ProductTest < ActiveSupport::TestCase
 
   def new_product(image_url)
     p = Product.new(title: 'My Book Title', description: 'yyy', price: 1,
-                    image_url: image_url)
+                    image_url:)
   end
-
 end
